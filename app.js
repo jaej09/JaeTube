@@ -11,6 +11,9 @@ import videoRouter from './routers/videoRouter';
 
 const app = express();
 
+// Setting
+app.set('view engine', 'pug');
+
 // Middleware - Order matters
 // 아래 모든 코드가 app object에 속한다.
 app.use(helmet()); // Help secure Express/Connect apps with various HTTP headers
