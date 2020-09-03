@@ -13,7 +13,7 @@ const app = express();
 
 // Middleware - Order matters
 // 아래 모든 코드가 app object에 속한다.
-app.use(helmet()); // Help secure Express/Connect apps with various HTTP headers
+app.use(helmet({ contentSecurityPolicy: false })); // Help secure Express/Connect apps with various HTTP headers
 app.set('view engine', 'pug');
 app.use(cookieParser());
 app.use(bodyParser.json());
