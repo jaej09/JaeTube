@@ -1,8 +1,12 @@
-export const home = (req, res) => res.render('home', { pageTitle: 'Home' });
+import { videos } from '../db';
+
+export const home = (req, res) => {
+	res.render('home', { pageTitle: 'Home', videos });
+};
 
 export const search = (req, res) => {
 	const { query: { term: searchingBy } } = req; // variable name "term"을 "searchingBy" 이름으로 변경
-	res.render('search', { pageTitle: 'Search', searchingBy });
+	res.render('search', { pageTitle: 'Search', searchingBy, videos });
 };
 
 export const upload = (req, res) => res.render('upload', { pageTitle: 'Upload' });
