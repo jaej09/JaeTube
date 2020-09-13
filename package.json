@@ -1,5 +1,5 @@
 {
-	"name": "jaetube",
+	"name": "youtube-clone",
 	"version": "1.0.0",
 	"description": "Cloning Youtube with Vanilla and NodeJS",
 	"main": "index.js",
