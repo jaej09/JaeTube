@@ -26,7 +26,8 @@ const routes = {
 	search         : SEARCH,
 	users          : USERS,
 	userDetail     : (id) => {
-		if (id) return `/users/${id}`;
+		if (id)
+			return `/users/${id}`; // HTML 링크에 /users/:id 같이 표시되는 것을 해결하기 위해서 다음 function 추가함
 		else return USER_DETAIL;
 	},
 	editProfile    : EDIT_PROFILE,
@@ -35,7 +36,7 @@ const routes = {
 	upload         : UPLOAD,
 	videoDetail    : (id) => {
 		if (id) return `/videos/${id}`;
-		else VIDEO_DETAIL;
+		else return VIDEO_DETAIL;
 	},
 	editVideo      : EDIT_VIDEO,
 	deleteVideo    : DELETE_VIDEO
