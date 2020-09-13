@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import dotevn from 'dotenv';
+dotevn.config();
 
-mongoose.connect('mongodb://localhost:27017/youtube-clone', { useNewUrlParser: true, useUnifiedTopology: false });
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: false });
 
 const db = mongoose.connection;
 const handleOpen = () => console.log('✅ Connected to DB');
