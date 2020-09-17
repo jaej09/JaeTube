@@ -1,7 +1,16 @@
 import routes from '../routes';
+import Video from '../models/Video';
 
-export const home = (req, res) => {
-	res.render('home', { pageTitle: 'Home', videos });
+export const home = async (req, res) => {
+	// async, await 성공적으로 끝날 때 까지 기다려주는 것이 아니라 그냥 끝날 때 까지 기다리는 것
+	// 에러가 발생하더라도 execution이 끝나면 다음 기능을 실행하기 때문에 try, catch를 사용하는 것이 적절함
+	try {
+		const videos = await Video.find({});
+		res.render('home', { pageTitle: 'Home', videos });
+	} catch (err) {
+		console.log(err);
+		res.render('home', { pageTitle: 'Home', videos: [] });
+	}
 };
 
 export const search = (req, res) => {
