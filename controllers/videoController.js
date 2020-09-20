@@ -5,7 +5,7 @@ export const home = async (req, res) => {
 	// async, await 성공적으로 끝날 때 까지 기다려주는 것이 아니라 그냥 끝날 때 까지 기다리는 것
 	// 에러가 발생하더라도 execution이 끝나면 다음 기능을 실행하기 때문에 try, catch를 사용하는 것이 적절함
 	try {
-		const videos = await Video.find({});
+		const videos = await Video.find({}).sort({ _id: -1 }); // -1 => sorting 하는 순서를 reverse 하겠다는 convention
 		res.render('home', { pageTitle: 'Home', videos });
 	} catch (err) {
 		console.error(err);
