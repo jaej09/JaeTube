@@ -8,7 +8,7 @@ export const home = async (req, res) => {
 		const videos = await Video.find({});
 		res.render('home', { pageTitle: 'Home', videos });
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 		res.render('home', { pageTitle: 'Home', videos: [] });
 	}
 };
@@ -32,7 +32,7 @@ export const postUpload = async (req, res) => {
 		title,
 		description
 	});
-	await Adventure.findById(id).exec();
+
 	// console.log(newVideo); // { Views: 0, Comments: [], _id: 5f66cab636efac41b6c3f93f, fileUrl: 'videos/4c354406b17be44d638cfc91e8a56ae3', title: 'Title', description: 'Description', createAt: 2020-09-20T03:21:26.851Z, __v: 0  }
 
 	res.redirect(routes.videoDetail(newVideo.id));
@@ -46,10 +46,32 @@ export const videoDetail = async (req, res) => {
 		const video = await Video.findById(id).exec();
 		res.render('videoDetail', { pageTitle: 'Video Detail', video });
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 		res.redirect(routes.home);
 	}
 };
 
-export const editVideo = (req, res) => res.render('editVideo', { pageTitle: 'Edit Video' });
+export const getEditVideo = async (req, res) => {
+	const { params: { id } } = req;
+
+	try {
+		// Find the Video with the given `id`, or `null` if not found
+		const video = await Video.findById(id).exec();
+		res.render('editVideo', { pageTitle: `Edit ${video.title}`, video });
+	} catch (err) {
+		console.error(err);
+		res.redirect(routes.home);
+	}
+};
+export const postEditVideo = async (req, res) => {
+	const { params: { id }, body: { title, description } } = req;
+	try {
+		await Video.findOneAndUpdate({ _id: id }, { title, description });
+		res.redirect(routes.videoDetail(id));
+	} catch (err) {
+		console.error(err);
+		res.redirect(routes.home);
+	}
+};
+
 export const deleteVideo = (req, res) => res.render('deleteVideo', { pageTitle: 'Delete Video' });
