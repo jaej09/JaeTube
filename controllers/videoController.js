@@ -32,12 +32,24 @@ export const postUpload = async (req, res) => {
 		title,
 		description
 	});
-
+	await Adventure.findById(id).exec();
 	// console.log(newVideo); // { Views: 0, Comments: [], _id: 5f66cab636efac41b6c3f93f, fileUrl: 'videos/4c354406b17be44d638cfc91e8a56ae3', title: 'Title', description: 'Description', createAt: 2020-09-20T03:21:26.851Z, __v: 0  }
 
 	res.redirect(routes.videoDetail(newVideo.id));
 };
 
-export const videoDetail = (req, res) => res.render('videoDetail', { pageTitle: 'Video Detail' });
+export const videoDetail = async (req, res) => {
+	const { params: { id } } = req; // Routes 보면, videos/5f66cab636efac41b6c3f93f => videos/ 다음에 나오는 값을 :id 로 설정했기 때문에 variable name이 id이다.
+
+	try {
+		// Find the Video with the given `id`, or `null` if not found
+		const video = await Video.findById(id).exec();
+		res.render('videoDetail', { pageTitle: 'Video Detail', video });
+	} catch (err) {
+		console.log(err);
+		res.redirect(routes.home);
+	}
+};
+
 export const editVideo = (req, res) => res.render('editVideo', { pageTitle: 'Edit Video' });
 export const deleteVideo = (req, res) => res.render('deleteVideo', { pageTitle: 'Delete Video' });
