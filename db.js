@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import dotevn from 'dotenv';
 dotevn.config();
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: false });
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 const handleOpen = () => console.log('✅ Connected to DB');
