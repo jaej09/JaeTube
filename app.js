@@ -22,6 +22,7 @@ app.use(morgan('dev'));
 app.use(localsMiddleware); // 제대로 사용하기 위해서는 아래 globalRouter, userRouter, videoRouter 보다 위에 위치해야 함.
 
 // Routers
+app.use('/uploads', express.static('uploads')); // 이미지, CSS 파일 및 JavaScript 파일과 같은 정적 파일을 제공하려면 Express의 기본 제공 미들웨어 함수인 express.static을 사용하면 된다. express.static 사용하면 URL 접근이 아닌 directory 접근을 한다. 여기서는 uploads 라는 directory 에 접근한다.
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter); // 라우터로 연결해줄 것이라서, app.get() 대신 app.use() 사용
 app.use(routes.videos, videoRouter);

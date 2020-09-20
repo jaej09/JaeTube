@@ -19,10 +19,23 @@ export const search = (req, res) => {
 };
 
 export const getUpload = (req, res) => res.render('upload', { pageTitle: 'Upload' });
-export const postUpload = (req, res) => {
-	const { body: { file, title, description } } = req;
-	// TODO: Upload and Save Video
-	res.redirect(routes.videoDetail(11111));
+export const postUpload = async (req, res) => {
+	// req.file is the `avatar` file
+	// req.body will hold the text fields, if there were any
+	const { body: { title, description }, file: { path } } = req;
+
+	// Create a Video
+	const newVideo = await Video.create({
+		// This goes to the DB
+		// Mongoose로 만들었던 video model 참고해서, 저장할 값 넘겨주기
+		fileUrl     : path,
+		title,
+		description
+	});
+
+	// console.log(newVideo); // { Views: 0, Comments: [], _id: 5f66cab636efac41b6c3f93f, fileUrl: 'videos/4c354406b17be44d638cfc91e8a56ae3', title: 'Title', description: 'Description', createAt: 2020-09-20T03:21:26.851Z, __v: 0  }
+
+	res.redirect(routes.videoDetail(newVideo.id));
 };
 
 export const videoDetail = (req, res) => res.render('videoDetail', { pageTitle: 'Video Detail' });
