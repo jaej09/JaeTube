@@ -8,7 +8,10 @@ const OUTPUT_DIR = path.join(__dirname, 'static');
 
 module.exports = {
   mode    : MODE,
-  entry   : ENTRY_FILE,
+  entry   : [
+    '@babel/polyfill',
+    ENTRY_FILE
+  ],
   plugins : [
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
@@ -17,6 +20,10 @@ module.exports = {
       chunkFilename : '[id].css'
     })
   ],
+  output  : {
+    filename : '[name].js',
+    path     : OUTPUT_DIR
+  },
   module  : {
     rules : [
       {
@@ -48,10 +55,6 @@ module.exports = {
         ]
       }
     ]
-  },
-  output  : {
-    filename : '[name].js',
-    path     : OUTPUT_DIR
   }
 };
 
