@@ -3,11 +3,13 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import passport from 'passport';
 import { localsMiddleware } from './middlewares';
 import routes from './routes';
 import globalRouter from './routers/globalRouter';
 import userRouter from './routers/userRouter';
 import videoRouter from './routers/videoRouter';
+import './passport';
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // bodyParser는 사용자가 웹사이트로 전달하는 정보들을 검사하는 Middleware. request 정보에서 form이나 json 형태로 된 body를 검사한다.
 app.use(morgan('dev'));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(localsMiddleware); // 제대로 사용하기 위해서는 아래 globalRouter, userRouter, videoRouter 보다 위에 위치해야 함.
 
 // Routers
