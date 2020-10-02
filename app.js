@@ -1,5 +1,5 @@
 import bodyParser from 'body-parser';
-import mongoStore from 'connect-mongo';
+import MongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import session from 'express-session';
@@ -17,7 +17,7 @@ import routes from './routes';
 import './passport';
 
 const app = express();
-const cookieStore = mongoStore(session);
+const cookieStore = MongoStore(session);
 
 // Middleware - Order matters
 // 아래 모든 코드가 app object에 속한다.
