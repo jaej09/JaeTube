@@ -6,10 +6,10 @@ export const home = async (req, res) => {
   // 에러가 발생하더라도 execution이 끝나면 다음 기능을 실행하기 때문에 try, catch를 사용하는 것이 적절함
   try {
     const videos = await Video.find({}).sort({ _id: -1 }); // -1 => sorting 하는 순서를 reverse 하겠다는 convention
-    res.render('home', { pageTitle: 'Home', videos });
+    return res.render('home', { pageTitle: 'Home', videos });
   } catch (err) {
     console.error(err);
-    res.render('home', { pageTitle: 'Home', videos: [] });
+    return res.render('home', { pageTitle: 'Home', videos: [] });
   }
 };
 
@@ -23,10 +23,11 @@ export const search = async (req, res) => {
     console.error(err);
   }
 
-  res.render('search', { pageTitle: 'Search', searchingBy, videos });
+  return res.render('search', { pageTitle: 'Search', searchingBy, videos });
 };
 
 export const getUpload = (req, res) => res.render('upload', { pageTitle: 'Upload' });
+
 export const postUpload = async (req, res) => {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
@@ -42,8 +43,7 @@ export const postUpload = async (req, res) => {
   });
 
   // console.log(newVideo); // { Views: 0, Comments: [], _id: 5f66cab636efac41b6c3f93f, fileUrl: 'videos/4c354406b17be44d638cfc91e8a56ae3', title: 'Title', description: 'Description', createAt: 2020-09-20T03:21:26.851Z, __v: 0  }
-
-  res.redirect(routes.videoDetail(newVideo.id));
+  return res.redirect(routes.videoDetail(newVideo.id));
 };
 
 export const videoDetail = async (req, res) => {
@@ -52,10 +52,10 @@ export const videoDetail = async (req, res) => {
   try {
     // Find the Video with the given `id`, or `null` if not found
     const video = await Video.findById(id).exec();
-    res.render('videoDetail', { pageTitle: video.title, video });
+    return res.render('videoDetail', { pageTitle: video.title, video });
   } catch (err) {
     console.error(err);
-    res.redirect(routes.home);
+    return res.redirect(routes.home);
   }
 };
 
@@ -65,20 +65,21 @@ export const getEditVideo = async (req, res) => {
   try {
     // Find the Video with the given `id`, or `null` if not found
     const video = await Video.findById(id).exec();
-    res.render('editVideo', { pageTitle: `Edit ${video.title}`, video });
+    return res.render('editVideo', { pageTitle: `Edit ${video.title}`, video });
   } catch (err) {
     console.error(err);
-    res.redirect(routes.home);
+    return res.redirect(routes.home);
   }
 };
+
 export const postEditVideo = async (req, res) => {
   const { params: { id }, body: { title, description } } = req;
   try {
     await Video.findOneAndUpdate({ _id: id }, { title, description });
-    res.redirect(routes.videoDetail(id));
+    return res.redirect(routes.videoDetail(id));
   } catch (err) {
     console.error(err);
-    res.redirect(routes.home);
+    return res.redirect(routes.home);
   }
 };
 
@@ -90,5 +91,6 @@ export const deleteVideo = async (req, res) => {
   } catch (err) {
     console.error(err);
   }
-  res.redirect(routes.home);
+
+  return res.redirect(routes.home);
 };
