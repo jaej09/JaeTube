@@ -1,6 +1,7 @@
 import passport from 'passport';
-import routes from '../routes';
+
 import User from '../models/User';
+import routes from '../routes';
 
 export const getJoin = (req, res) => {
   res.render('join', { pageTitle: 'Join' });
@@ -31,10 +32,11 @@ export const postLogin = passport.authenticate('local', {
   successRedirect : routes.home
 });
 
-export const githubLoginCallback = (accessToken, refreshToken, profile, cb) => {
-  // 깃헙에서 성공적으로 로그인 되었을 때 실행
-  console.log(accessToken, refreshToken, profile, cb);
-};
+export const githubLogin = passport.authenticate('github');
+
+export const githubLoginCallback = (accessToken, refreshToken, profile, cb) => console.log(accessToken, refreshToken, profile, cb);
+
+export const postGithubLogIn = (req, res) => res.send(routes.home);
 
 export const logout = (req, res) => {
   req.logout();
