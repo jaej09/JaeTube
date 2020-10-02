@@ -1,8 +1,10 @@
 import bodyParser from 'body-parser';
+import mongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import session from 'express-session';
 import helmet from 'helmet';
+import mongoose from 'mongoose';
 import morgan from 'morgan';
 import passport from 'passport';
 
@@ -15,6 +17,7 @@ import routes from './routes';
 import './passport';
 
 const app = express();
+const cookieStore = mongoStore(session);
 
 // Middleware - Order matters
 // 아래 모든 코드가 app object에 속한다.
@@ -30,7 +33,7 @@ app.use(
     resave            : false,
     saveUninitialized : true,
     cookie            : { secure: false },
-    store             : new cookieStore({ mongooseConnection }) // mongoDB와 연결해야함
+    store             : new cookieStore({ mongooseConnection: mongoose.connection }) // mongoDB와 연결해야함
   })
 );
 app.use(passport.initialize());
