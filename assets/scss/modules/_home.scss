@@ -1,0 +1,13 @@
+@import '../_variables';
+
+.video-container {
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(auto-fill, 350px);
+  grid-auto-rows: minmax(250px, auto);
+
+  video {
+    width: 350px;
+    height: 200px;
+  }
+}

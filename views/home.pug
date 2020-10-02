@@ -2,7 +2,7 @@ extends layouts/main
 include mixins/videoBlock
 
 block content
-    .videos
+    .video-container
         each video in videos
             +videoBlock({
                 id: video.id,

@@ -8,12 +8,13 @@ block content
         if videos.length === 0
             h5 No Videos Found
         else 
-            each video in videos
-                +videoBlock({
-                    id: video.id,
-                    videoFile: video.videoFile,
-                    poster: video.poster,
-                    title: video.title,
-                    views: video.views,
-                    description: video.description,
-                })
+            .video-container
+                each video in videos
+                    +videoBlock({
+                        id: video.id,
+                        videoFile: video.videoFile,
+                        poster: video.poster,
+                        title: video.title,
+                        views: video.views,
+                        description: video.description,
+                    })

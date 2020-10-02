@@ -1,0 +1,29 @@
+@import '../_variables';
+
+.social-login {
+  color: $color-white;
+}
+
+.social-login__header {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  color: $color-gray-73;
+  font-weight: 300;
+
+  &:before,
+  &:after {
+    content: "";
+    flex: 1 1;
+    border-bottom: 1px dotted $color-gray-73;
+    margin: auto;
+  }
+
+  &:before {
+    margin-right: 10px;
+  }
+
+  &:after {
+    margin-left: 10px;
+  }
+}

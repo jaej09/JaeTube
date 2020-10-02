@@ -1,0 +1,23 @@
+@import '../_variables';
+
+body {
+  font-family: 'Balsamiq Sans', 'Hi Melody', cursive;
+  font-weight: 400;
+  color: $color-gray-87;
+}
+
+main {
+  background-color: $color-gray-02;
+  height: calc(100vh - 56px);
+  padding: 30px;
+}
+
+.restricted {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+video {
+  object-fit: cover;
+}

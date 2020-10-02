@@ -1,11 +1,20 @@
 extends layouts/main
 
 block content
-    .form-container
+    .restricted
         form(action=routes.join, method="post")
-            input(type="text", name="userName", placeholder="Full Name")
-            input(type="email", name="email", placeholder="Email")
-            input(type="password", name="password", placeholder="Password")
-            input(type="password", name="verifyPassword", placeholder="Verify Password")
-            button(type="submit") Join Now
-        include partials/socialLogin
+            .form-group
+                label(for='username') Full Name
+                input#username.form-control(type="text", name="userName", required)
+            .form-group
+                label(for='email') Email Address
+                input#email.form-control(type="email", name="email", required)
+            .form-group
+                label(for='password') Password
+                input#password.form-control(type="password", name="password", required)
+            .form-group
+                label(for='verify-password') Verify Password
+                input#verify-password.form-control(type="password", name="verifyPassword", required)
+            button.btn.btn-success.btn-block(type="submit") Join Now
+        .mt-5
+            include partials/socialLogin

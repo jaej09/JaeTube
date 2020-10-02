@@ -1,9 +1,15 @@
 extends layouts/main
 
 block content
-    .form-container
+    .restricted
         form(action=`/videos${routes.upload}`, method="post", enctype="multipart/form-data")
-            input(type="file", id="videoFile", name="videoFile", required=true, accept="video/*")
-            input(type="text", placeholder="Title", name="title", required=true)
-            textarea(name="description", placeholder="Description", required=true)
-            button(type="submit") Upload Video
+            .form-group
+                label(for='video-file') Video
+                input#video-file.form-control-file(type="file", name="videoFile", required=true, accept="video/*")
+            .form-group
+                label(for='video-title') Title
+                input#video-title.form-control(type="text", name="title", required=true)
+            .form-group
+                label(for='video-description') Description
+                textarea#video-description.form-control(rows="8", name="description", required=true)
+            button.btn.btn-success.btn-block(type="submit") Upload Video
