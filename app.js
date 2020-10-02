@@ -1,15 +1,17 @@
-import express from 'express'; // var express = require('express');
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import passport from 'passport';
+import express from 'express';
 import session from 'express-session';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import passport from 'passport';
+
 import { localsMiddleware } from './middlewares';
-import routes from './routes';
 import globalRouter from './routers/globalRouter';
 import userRouter from './routers/userRouter';
 import videoRouter from './routers/videoRouter';
+import routes from './routes';
+
 import './passport';
 
 const app = express();
@@ -27,7 +29,8 @@ app.use(
     secret            : 'keyboard cat',
     resave            : false,
     saveUninitialized : true,
-    cookie            : { secure: false }
+    cookie            : { secure: false },
+    store             : new cookieStore({ mongooseConnection }) // mongoDB와 연결해야함
   })
 );
 app.use(passport.initialize());
