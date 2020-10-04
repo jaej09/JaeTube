@@ -23,37 +23,43 @@ const DELETE_VIDEO = '/:id/delete';
 const GITHUB = '/auth/github';
 const GITHUB_CALLBACK = '/auth/github/callback';
 
+// Facebook
+const FACEBOOK = '/auth/facebook';
+const FACEBOOK_CALLBACK = '/auth/facebook/callback';
+
 const routes = {
-  home           : HOME,
-  join           : JOIN,
-  login          : LOGIN,
-  logout         : LOGOUT,
-  search         : SEARCH,
-  users          : USERS,
-  userDetail     : (id) => {
+  home             : HOME,
+  join             : JOIN,
+  login            : LOGIN,
+  logout           : LOGOUT,
+  search           : SEARCH,
+  users            : USERS,
+  userDetail       : (id) => {
     if (id)
       return `/users/${id}`; // HTML 링크에 /users/:id 같이 표시되는 것을 해결하기 위해서 다음 function 추가함
     else return USER_DETAIL;
   },
-  editProfile    : EDIT_PROFILE,
-  changePassword : CHANGE_PASSWORD,
-  me             : ME,
-  videos         : VIDEOS,
-  upload         : UPLOAD,
-  videoDetail    : (id) => {
+  editProfile      : EDIT_PROFILE,
+  changePassword   : CHANGE_PASSWORD,
+  me               : ME,
+  videos           : VIDEOS,
+  upload           : UPLOAD,
+  videoDetail      : (id) => {
     if (id) return `/videos/${id}`;
     else return VIDEO_DETAIL;
   },
-  editVideo      : (id) => {
+  editVideo        : (id) => {
     if (id) return `/videos/${id}/edit`;
     else return EDIT_VIDEO;
   },
-  deleteVideo    : (id) => {
+  deleteVideo      : (id) => {
     if (id) return `/videos/${id}/delete`;
     else return DELETE_VIDEO;
   },
-  github         : GITHUB,
-  githubCallback : GITHUB_CALLBACK
+  github           : GITHUB,
+  githubCallback   : GITHUB_CALLBACK,
+  facebook         : FACEBOOK,
+  facebookCallback : FACEBOOK_CALLBACK
 };
 
 export default routes;
