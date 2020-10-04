@@ -1,4 +1,12 @@
 extends layouts/main
 
 block content
-    p User Detail
+    .restricted
+        .card.mb-3.user-detail
+            .row.no-gutters
+                .col-sm-4
+                    img.card-img-top.user-detail__avatar(src=user.avatarUrl)
+                .col-sm-8
+                    .card-body
+                        h4.card-title=user.name
+                        

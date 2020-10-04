@@ -30,8 +30,8 @@ app.use(morgan('dev'));
 app.use(
   session({
     secret            : 'keyboard cat',
-    resave            : false,
-    saveUninitialized : true,
+    resave            : false, // 세션을 강제로 저장되도록 함
+    saveUninitialized : true, // 초기화되지 않은 세션을 저장소에 저장함
     cookie            : { secure: false },
     store             : new cookieStore({ mongooseConnection: mongoose.connection }) // mongoDB와 연결해야함
   })

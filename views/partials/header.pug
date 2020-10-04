@@ -8,7 +8,7 @@ header
 
         #navbarSupportedContent.collapse.navbar-collapse
             ul.navbar-nav.mr-auto.justify-content-center
-                if !user
+                if !loggedUser
                     li.nav-item
                         a.nav-link(href=routes.join) Join
                     li.nav-item
@@ -17,7 +17,7 @@ header
                     li.nav-item
                         a.nav-link(href=`/videos${routes.upload}`) Upload
                     li.nav-item
-                        a.nav-link(href=routes.userDetail(user.id)) Profile
+                        a.nav-link(href=routes.me) Profile
                     li.nav-item
                         a.nav-link(href=routes.logout) Log Out
             form.form-inline.my-2.my-lg-0(action=routes.search, method="get")
