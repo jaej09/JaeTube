@@ -32,7 +32,6 @@ export const postUpload = async (req, res) => {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
   const { body: { title, description }, file: { path } } = req;
-
   // Create a Video
   const newVideo = await Video.create({
     // This goes to the DB
