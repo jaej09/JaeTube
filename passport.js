@@ -43,5 +43,7 @@ passport.use(
   )
 );
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport-local-mongoose 덕분에 코드가 짧아짐
+// user.id 값만 쿠키에 포함됨
+passport.serializeUser(User.serializeUser()); // 클라이언트에 있는 사용자에 대한 어떠한 정보들이 쿠키에 포함될 것인지 알려주는 역할 (많은 정보를 주지 않는 것이 좋다. 누군가가 접근할 수도 있기 때문에, 쿠키는 아주 작아야하고, 민감한 정보가 담겨있어서는 안된다.)
+passport.deserializeUser(User.deserializeUser()); // 쿠키를 통해 받은 정보에 해당하는 사용자를 찾는 역할
