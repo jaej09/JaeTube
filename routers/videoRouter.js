@@ -1,13 +1,6 @@
 import express from 'express';
 
-import {
-  deleteVideo,
-  getEditVideo,
-  getUpload,
-  postEditVideo,
-  postUpload,
-  videoDetail
-} from '../controllers/videoController';
+import { deleteVideo, getEditVideo, getUpload, postEditVideo, postUpload, videoDetail } from '../controllers/videoController';
 import { onlyPrivate, uploadVideo } from '../middlewares';
 import routes from '../routes';
 
@@ -25,6 +18,6 @@ videoRouter.post(routes.editVideo(), onlyPrivate, postEditVideo);
 videoRouter.get(routes.deleteVideo(), onlyPrivate, deleteVideo);
 
 // Video Detail
-videoRouter.get(routes.videoDetail(), videoDetail);
+videoRouter.get(routes.videoDetail(), onlyPrivate, videoDetail);
 
 export default videoRouter;

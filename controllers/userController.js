@@ -73,7 +73,7 @@ export const postFacebookLogin = (req, res) => res.redirect(routes.home);
 
 export const logout = (req, res) => {
   req.logout();
-  return res.render('logout', { pageTitle: 'Log Out' });
+  return res.redirect(routes.home);
 };
 
 export const getMe = (req, res) => {
