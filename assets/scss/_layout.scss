@@ -1,0 +1,28 @@
+.page-wrapper {
+  max-width: 1980px;
+  min-height: 90vh;
+  padding: 30px 32px;
+  margin: 0 auto;
+}
+
+.restricted {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.h-80 {
+  height: 80vh;
+}
+
+.v-center {
+  display: flex;
+}
+
+.bg-brand {
+  background-color: $color-brand-red;
+}
+
+.btn-social > :first-child {
+  top: 4px;
+}

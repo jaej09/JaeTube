@@ -1,12 +1,55 @@
 extends layouts/main
 
 block content
-    .restricted
-        .card.mb-3.user-detail
-            .row.no-gutters
-                .col-sm-4
-                    img.card-img-top.user-detail__avatar(src=user.avatarUrl)
-                .col-sm-8
-                    .card-body
-                        h4.card-title=user.name
-                        
+    .bg-white.shadow.rounded.overflow-hidden
+        .px-4.pt-0.pb-4.cover
+            .media.align-items-end.profile-head
+                .profile.mr-3
+                    img.rounded.mb-2.img-thumbnail(src=user.avatarUrl, width='130')
+                    a.btn.btn-outline-dark.btn-sm.btn-block(href='#') Edit profile
+                .media-body.mb-5.text-white
+                    h4.mt-0.mb-0=user.name
+                    p.small.mb-4
+                        i.fas.fa-map-marker-alt.mr-2
+                        | New York
+        .bg-light.p-4.d-flex.justify-content-end.text-center
+            ul.list-inline.mb-0
+                li.list-inline-item
+                    h5.font-weight-bold.mb-0.d-block 215
+                    small.text-muted
+                        i.fas.fa-image.mr-1
+                        | Photos
+                li.list-inline-item
+                    h5.font-weight-bold.mb-0.d-block 745
+                    small.text-muted
+                        i.fas.fa-user.mr-1
+                        | Followers
+                li.list-inline-item
+                    h5.font-weight-bold.mb-0.d-block 340
+                    small.text-muted
+                        i.fas.fa-user.mr-1
+                        | Following
+        .px-4.py-3
+            h5.mb-0 About
+            .p-4.rounded.shadow-sm.bg-light
+                p.font-italic.mb-0 Web Developer
+                p.font-italic.mb-0 Lives in New York
+                p.font-italic.mb-0 Photographer
+        .py-4.px-4
+            .d-flex.align-items-center.justify-content-between.mb-3
+                h5.mb-0 Recent Videos
+                a.btn.btn-link.text-muted(href='#') Show all
+            .user-detail__video
+                .row 
+                    .col-lg-3.col-md-6
+                        .user-detail__video-box
+                            img.img-fluid.rounded.shadow-sm(src='https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80' alt='')
+                    .col-lg-3.col-md-6
+                        .user-detail__video-box
+                            img.img-fluid.rounded.shadow-sm(src='https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80' alt='')
+                    .col-lg-3.col-md-6
+                        .user-detail__video-box
+                            img.img-fluid.rounded.shadow-sm(src='https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80' alt='')
+                    .col-lg-3.col-md-6
+                        .user-detail__video-box
+                            img.img-fluid.rounded.shadow-sm(src='https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80' alt='')

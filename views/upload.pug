@@ -1,15 +1,17 @@
 extends layouts/main
 
 block content
-    .restricted
-        form(action=`/videos${routes.upload}`, method="post", enctype="multipart/form-data")
-            .form-group
-                label(for='video-file') Video
-                input#video-file.form-control-file(type="file", name="videoFile", required=true, accept="video/*")
-            .form-group
-                label(for='video-title') Title
-                input#video-title.form-control(type="text", name="title", required=true)
-            .form-group
-                label(for='video-description') Description
-                textarea#video-description.form-control(rows="8", name="description", required=true)
-            button.btn.btn-success.btn-block(type="submit") Upload Video
+    .restricted.d-flex.h-80
+        .bg-white.shadow.rounded.overflow-hidden.px-4.py-4.w-100.align-self-center
+            h3.mb-4.text-uppercase.text-center Upload Video
+            form(action=`/videos${routes.upload}`, method="post", enctype="multipart/form-data")
+                .form-group
+                    label(for='video-file') Video
+                    input#video-file.form-control-file(type="file", name="videoFile", required=true, accept="video/*")
+                .form-group
+                    label(for='video-title') Title
+                    input#video-title.form-control(type="text", name="title", required=true)
+                .form-group
+                    label(for='video-description') Description
+                    textarea#video-description.form-control(rows="8", name="description", required=true)
+                button.btn.btn-danger.btn-block(type="submit") Upload Video

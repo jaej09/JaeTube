@@ -2,6 +2,19 @@ extends layouts/main
 include mixins/videoBlock
 
 block content
+    .video__adv-section
+        - var n = 0;
+            while n < 2
+                +videoBlock({
+                    id: videos[n].id,
+                    videoFile: videos[n].fileUrl,
+                    poster: videos[n].poster,
+                    title: videos[n].title,
+                    views: videos[n].views,
+                    description: videos[n].description,
+                })
+                - n++; 
+                
     .video-container
         each video in videos
             +videoBlock({

@@ -1,14 +1,16 @@
 extends layouts/main
 
 block content
-    .restricted
-        form(action=routes.login, method="post")
-            .form-group
-                label(for='email') Email Address
-                input#email.form-control(type="email", name="email", required)
-            .form-group
-                label(for='password') Password
-                input#password.form-control(type="password", name="password", required)
-            button.btn.btn-success.btn-block(type="submit") Log In
-        .mt-5
+    .restricted.d-flex.h-80
+        .bg-white.shadow.rounded.overflow-hidden.px-4.py-4.w-100.align-self-center
+            h3.mb-4.text-uppercase.text-center Log In
+            form(action=routes.login, method="post")
+                .form-group
+                    label(for='email') Email Address
+                    input#email.form-control(type="email", name="email", required)
+                .form-group
+                    label(for='password') Password
+                    input#password.form-control(type="password", name="password", required)
+                button.btn.btn-outline-danger.btn-block(type="submit") Log In
+
             include partials/socialLogin

@@ -1,13 +1,20 @@
 header
-    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
-        a.navbar-brand(href=routes.home) 
+    nav.navbar.navbar-expand-lg.navbar-light.bg-white.fixed-top
+        a.navbar-brand.font-weight-bolder.mr-3(href=routes.home) 
             span.fab.fa-youtube.mr-2
-            span VIDEO
-        button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+            span YOUTUBE CLONE
+        button.navbar-light.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarsDefault' aria-controls='navbarsDefault' aria-expanded='false' aria-label='Toggle navigation')
             span.navbar-toggler-icon
 
-        #navbarSupportedContent.collapse.navbar-collapse
-            ul.navbar-nav.mr-auto.justify-content-center
+        #navbarsDefault.collapse.navbar-collapse
+            ul.navbar-nav.mr-auto.align-items-center
+                form.bd-search.hidden-sm-down(action=routes.search, method="get")
+                    input#search-input.form-control.bg-graylight.border-0.font-weight-bold(type='search', name="term", placeholder="Search", aria-label="Search")
+                    #search-results.dropdown-menu.bd-search-results
+
+            ul.navbar-nav.ml-auto.align-items-center
+                li.nav-item
+                    a.nav-link.active(href=routes.home) Home
                 if !loggedUser
                     li.nav-item
                         a.nav-link(href=routes.join) Join
@@ -20,6 +27,3 @@ header
                         a.nav-link(href=routes.me) Profile
                     li.nav-item
                         a.nav-link(href=routes.logout) Log Out
-            form.form-inline.my-2.my-lg-0(action=routes.search, method="get")
-                input.form-control.mr-sm-2(type='search', name="term", aria-label="Search")
-                button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Submit
