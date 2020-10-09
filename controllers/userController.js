@@ -105,8 +105,31 @@ export const postEditProfile = async (req, res) => {
     return res.redirect(routes.me);
   } catch (err) {
     console.error(err);
-    res.render('editProfile', { pageTitle: 'Edit Profile' });
+    res.redirect(routes.editProfile);
   }
 };
 
-export const changePassword = (req, res) => res.render('changePassword', { pageTitle: 'Change Password' });
+export const getChangePassword = (req, res) => res.render('changePassword', { pageTitle: 'Change Password' });
+
+export const postChangePassword = async (req, res) => {
+  const { body: { currentPassword, newPassword, verifyNewPassword } } = req;
+
+  try {
+    if (newPassword !== verifyNewPassword) {
+      res.status(400); // status code 400 주지 않으면 브라우저에서 패스워드가 성공적으로 변경되었다 생각하고 저장하라는 알림을 보냄.
+      return res.redirect(`/users${routes.changePassword}`);
+    }
+    /**
+     * Passport-Local Mongoose
+     * changePassword(oldPassword, newPassword, [cb])
+     * Changes a user's password hash and salt, resets the user's number of failed password attempts and saves the user object (everything only if oldPassword is correct). 
+     * If no callback cb is provided a Promise is returned. 
+     * If oldPassword does not match the user's old password, an IncorrectPasswordError is passed to cb or the Promise is rejected.
+     */
+    await req.user.changePassword(currentPassword, newPassword); // req.user에 유저 정보가 있기 때문에 User.find({}) 사용할 필요 없음
+    res.redirect(routes.me);
+  } catch (err) {
+    console.error(err);
+    return res.redirect(`/users${routes.changePassword}`);
+  }
+};
