@@ -6,7 +6,11 @@ block content
             .media.align-items-end.profile-head
                 .profile.mr-3
                     img.rounded.mb-2.img-thumbnail(src=user.avatarUrl, width='130')
-                    a.btn.btn-outline-dark.btn-sm.btn-block(href='#') Edit profile
+                    // loggedUser은 middlewares.js 에서 반환, user은 컨트롤러에서 반환
+                    // loggedUSer은 로그인한 유저에 대한 정보를 갖고 있음
+                    // localhost/me 접근시 user.id와 loggedUSer.id는 동일하다 반면, localhost/users/3942931 같이 userDetail 컨트롤러 사용하여 접근시 user.id와 loggedUser.id 정보는 다르다
+                    if user.id === loggedUser.id 
+                        a.btn.btn-outline-dark.btn-sm.btn-block(href='#') Edit profile
                 .media-body.mb-5.text-white
                     h4.mt-0.mb-0=user.name
                     p.small.mb-4
