@@ -38,8 +38,14 @@ export const postUpload = async (req, res) => {
     // Mongoose로 만들었던 video model 참고해서, 저장할 값 넘겨주기
     fileUrl     : path,
     title,
-    description
+    description,
+    creator     : req.user.id
   });
+
+  console.log('user정보에 담겨있는 것', req.user);
+
+  req.user.videos.push(newVideo.id);
+  req.user.save(); // we push newVideo.id into vidoes and then save all the user data on DB
 
   // console.log(newVideo); // { Views: 0, Comments: [], _id: 5f66cab636efac41b6c3f93f, fileUrl: 'videos/4c354406b17be44d638cfc91e8a56ae3', title: 'Title', description: 'Description', createAt: 2020-09-20T03:21:26.851Z, __v: 0  }
   return res.redirect(routes.videoDetail(newVideo.id));
@@ -50,7 +56,8 @@ export const videoDetail = async (req, res) => {
 
   try {
     // Find the Video with the given `id`, or `null` if not found
-    const video = await Video.findById(id).exec();
+    const video = await Video.findById(id).populate('creator'); // objectId에만 .populate 사용 가능
+    console.log(video);
     return res.render('videoDetail', { pageTitle: video.title, video });
   } catch (err) {
     console.error(err);

@@ -5,12 +5,16 @@ block content
         .video-detail__player
             video(src=`/${video.fileUrl}`, controls)
         .video-detail__info
-            button.btn.btn-warning.mb-4
-                a(href=routes.editVideo(video.id)) Edit Video    
+            if video.creator.id === loggedUser.id
+                button.btn.btn-warning.mb-4
+                    a(href=routes.editVideo(video.id)) Edit Video
             h5.video__title=video.title
             span.video__views=video.views
             p.video__description=video.description 
-        .video__comments
+        .video-detail__author
+            p Uploaded by 
+                a(href=routes.userDetail(video.creator.id))=video.creator.name
+        .video-detail__comments
             if video.comments.length === 1
                 span.video__comment-number 1 comment
             else
