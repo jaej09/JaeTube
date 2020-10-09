@@ -8,9 +8,9 @@ block content
             if video.creator.id === loggedUser.id
                 button.btn.btn-warning.mb-4
                     a(href=routes.editVideo(video.id)) Edit Video
-            h5.video__title=video.title
+            h5.video__title.text-justify=video.title
             span.video__views=video.views
-            p.video__description=video.description 
+            p.video__description.text-justify=video.description 
         .video-detail__author
             p Uploaded by 
                 a(href=routes.userDetail(video.creator.id))=video.creator.name

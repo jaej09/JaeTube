@@ -1,5 +1,5 @@
-import routes from '../routes';
 import Video from '../models/Video';
+import routes from '../routes';
 
 export const home = async (req, res) => {
   // async, await 성공적으로 끝날 때 까지 기다려주는 것이 아니라 그냥 끝날 때 까지 기다리는 것
@@ -57,7 +57,6 @@ export const videoDetail = async (req, res) => {
   try {
     // Find the Video with the given `id`, or `null` if not found
     const video = await Video.findById(id).populate('creator'); // objectId에만 .populate 사용 가능
-    console.log(video);
     return res.render('videoDetail', { pageTitle: video.title, video });
   } catch (err) {
     console.error(err);
@@ -71,7 +70,13 @@ export const getEditVideo = async (req, res) => {
   try {
     // Find the Video with the given `id`, or `null` if not found
     const video = await Video.findById(id).exec();
-    return res.render('editVideo', { pageTitle: `Edit ${video.title}`, video });
+    if (video.creator != req.user.id) {
+      // populate하지 않았기 때문에, video.creator에는 user.id가 들어가있음
+      throw Error(); // 에러발생하면 catch(err) 아래 코드 실행
+    }
+    else {
+      return res.render('editVideo', { pageTitle: `Edit ${video.title}`, video });
+    }
   } catch (err) {
     console.error(err);
     return res.redirect(routes.home);
@@ -93,10 +98,16 @@ export const deleteVideo = async (req, res) => {
   const { params: { id } } = req;
 
   try {
-    await Video.findOneAndRemove({ _id: id });
+    const video = await Video.findById(id).exec();
+    if (video.creator != req.user.id) {
+      // populate하지 않았기 때문에, video.creator에는 user.id가 들어가있음
+      throw Error(); // 에러발생하면 catch(err) 아래 코드 실행
+    }
+    else {
+      await Video.findOneAndRemove({ _id: id });
+    }
   } catch (err) {
     console.error(err);
   }
-
   return res.redirect(routes.home);
 };

@@ -16,5 +16,14 @@
 
   &__video-box {
     margin: 5px -10px;
+
+    video {
+      width: 100%;
+    }
+
+    .video-block__title {
+      font-size: 15px;
+      font-weight: 400;
+    }
   }
 }
