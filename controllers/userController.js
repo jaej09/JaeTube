@@ -50,6 +50,8 @@ export const githubLoginCallback = async (accessToken, refreshToken, profile, cb
     }
     // 동일한 이메일 주소가 없을 경우
     const newUser = await User.create({
+      // 비밀번호가 없으면 .create 사용해서 계정 생성해도 괜찮음
+      // 비밀번호 포함되어 있으면 .register -> 비밀번호 암호화를 위해 필요함
       email,
       name,
       githubId  : id,
