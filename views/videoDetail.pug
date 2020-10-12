@@ -1,9 +1,12 @@
 extends layouts/main
+include mixins/videoPlayer
 
 block content
     .video-detail
         .video-detail__player
-            video(src=`/${video.fileUrl}`, controls)
+            +videoPlayer({
+                src: video.fileUrl
+            })
         .video-detail__info
             if loggedUser && video.creator.id === loggedUser.id
                 button.btn.btn-warning.mb-4

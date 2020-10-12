@@ -1,0 +1,49 @@
+@import '../_variables';
+
+.video-player {
+  position: relative;
+  &:hover {
+    .video-player__controls {
+      opacity: 1;
+    }
+  }
+
+  video {
+    max-width: 100%;
+  }
+
+  &__controls {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    color: $color-white;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.4s linear;
+
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    > .column {
+      i {
+        font-size: 23px;
+        cursor: pointer;
+      }
+
+      &:first-child {
+        display: flex;
+        align-items: center;
+      }
+
+      &:nth-child(2) {
+        justify-self: center;
+      }
+
+      &:last-child {
+        justify-self: end;
+      }
+    }
+  }
+}
