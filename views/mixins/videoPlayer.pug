@@ -3,12 +3,12 @@ mixin videoPlayer(video={})
     video(src=`/${video.src}`)
     .video-player__controls
       .column
-        span.mr-3
+        span.mr-3.button-volume
           i.fas.fa-volume-up
         span 00:00 / 10:00
       .column
-        span
+        span.button-play
           i.fas.fa-play
       .column
-        span
+        span.button-expand
           i.fas.fa-expand
