@@ -3,6 +3,7 @@ mixin videoPlayer(video={})
     video(src=`/${video.src}`)
     .video-player__controls
       .column
+        input.button-volume-range.mr-3.form-control-range.custom-range(type="range", min="0", max="10", step="1", value="5")
         span.mr-3.button-volume
           i.fas.fa-volume-up
         span.duration

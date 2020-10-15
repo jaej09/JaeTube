@@ -66,7 +66,6 @@ var VideoPlayer = (function() {
     let hours = Math.floor(secondsNumber / 3600);
     let minutes = Math.floor((secondsNumber - hours * 3600) / 60);
     let totalSeconds = secondsNumber - hours * 3600 - minutes * 60;
-    console.log(hours, minutes, totalSeconds);
 
     if (hours < 10) hours = `0${hours}`;
     if (minutes < 10) minutes = `0${minutes}`;
@@ -75,7 +74,12 @@ var VideoPlayer = (function() {
   }
 
   function setCurrentTime() {
-    $currentTime.innerHTML = formatDate($video.currentTime);
+    /**
+     * 51:00 / 52:00 
+     * 51초에서 비디오는 끝이나고 다시 0으로 바뀌는 문제 => 51.9초는 51초로 보이기 때문에 발생하는 것 
+     * Math.floor을 활용해서 해결
+     */
+    $currentTime.innerHTML = formatDate(Math.floor($video.currentTime));
   }
 
   function setTotalTime() {
@@ -84,6 +88,11 @@ var VideoPlayer = (function() {
     // 비디오가 전부 로드되었을 시에만 setTotalTime() 실행되기 때문에,
     // 실행이 끝나고 나면 매초마다 setCurrentTime() 실행해서 현재 시점을 구한다.
     setInterval(setCurrentTime, 1000);
+  }
+
+  function handleEnded() {
+    $video.currentTime = 0;
+    handlePlayBtnClick(); // 일시정지 => 재생버튼으로 변경
   }
 
   function init() {
@@ -101,6 +110,7 @@ var VideoPlayer = (function() {
       $playBtn.addEventListener('click', handlePlayBtnClick);
       $expandBtn.addEventListener('click', openFullscreen);
       $video.addEventListener('loadedmetadata', setTotalTime); // 비디오가 전부 로드 될 때까지 기다렸다가 setTotalTime 실행
+      $video.addEventListener('ended', handleEnded);
     }
   }
 
