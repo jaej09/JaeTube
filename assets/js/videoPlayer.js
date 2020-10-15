@@ -1,5 +1,7 @@
+const { set } = require('mongoose');
+
 var VideoPlayer = (function() {
-  let $videoContainer, $video, $volumeBtn, $playBtn, $expandBtn;
+  let $videoContainer, $video, $volumeBtn, $playBtn, $expandBtn, $currentTime, $totalTime;
 
   /**
    * https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
@@ -59,6 +61,31 @@ var VideoPlayer = (function() {
     }
   }
 
+  function formatDate(seconds) {
+    const secondsNumber = parseInt(seconds, 10);
+    let hours = Math.floor(secondsNumber / 3600);
+    let minutes = Math.floor((secondsNumber - hours * 3600) / 60);
+    let totalSeconds = secondsNumber - hours * 3600 - minutes * 60;
+    console.log(hours, minutes, totalSeconds);
+
+    if (hours < 10) hours = `0${hours}`;
+    if (minutes < 10) minutes = `0${minutes}`;
+    if (totalSeconds < 10) totalSeconds = `0${totalSeconds}`;
+    return `${hours}:${minutes}:${totalSeconds}`;
+  }
+
+  function setCurrentTime() {
+    $currentTime.innerHTML = formatDate($video.currentTime);
+  }
+
+  function setTotalTime() {
+    const totalTime = formatDate($video.duration);
+    $totalTime.innerHTML = totalTime;
+    // 비디오가 전부 로드되었을 시에만 setTotalTime() 실행되기 때문에,
+    // 실행이 끝나고 나면 매초마다 setCurrentTime() 실행해서 현재 시점을 구한다.
+    setInterval(setCurrentTime, 1000);
+  }
+
   function init() {
     $videoContainer = document.querySelector('.video-player');
 
@@ -67,10 +94,13 @@ var VideoPlayer = (function() {
       $volumeBtn = $videoContainer.querySelector('.button-volume');
       $playBtn = $videoContainer.querySelector('.button-play');
       $expandBtn = $videoContainer.querySelector('.button-expand');
+      $currentTime = $videoContainer.querySelector('.duration__current');
+      $totalTime = $videoContainer.querySelector('.duration__total');
 
       $volumeBtn.addEventListener('click', handleVolumeBtnClick);
       $playBtn.addEventListener('click', handlePlayBtnClick);
       $expandBtn.addEventListener('click', openFullscreen);
+      $video.addEventListener('loadedmetadata', setTotalTime); // 비디오가 전부 로드 될 때까지 기다렸다가 setTotalTime 실행
     }
   }
 
