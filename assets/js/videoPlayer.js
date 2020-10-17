@@ -33,33 +33,19 @@ var VideoPlayer = (function() {
     }
   }
 
-  function openFullscreen() {
-    // #video가 아닌 $videoContainer에 fullscreen 설정을 해야 전체화면 클릭시 controls까지 보임
-    if ($video.requestFullscreen) $videoContainer.requestFullscreen();
-    else if ($video.mozRequestFullScreen) $videoContainer.mozRequestFullScreen();
-    else if ($video.webkitRequestFullscreen) $videoContainer.webkitRequestFullscreen();
-    else if ($video.msRequestFullscreen) $videoContainer.msRequestFullscreen();
-
-    if ($video.requestFullscreen || $video.mozRequestFullScreen || $video.webkitRequestFullscreen || $video.msRequestFullscreen) {
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      // #video가 아닌 $videoContainer에 fullscreen 설정을 해야 전체화면 클릭시 controls까지 보임
+      $videoContainer
+        .requestFullscreen()
+        .catch((err) => alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
       $videoContainer.classList.add('is-fullscreen');
       $expandBtn.innerHTML = '<i class="fas fa-compress"></i>';
-      $expandBtn.removeEventListener('click', openFullscreen);
-      $expandBtn.addEventListener('click', closeFullscreen);
     }
-  }
-
-  function closeFullscreen() {
-    // The exitFullscreen should be called on document object only
-    if (document.exitFullscreen) document.exitFullscreen();
-    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
-    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    else if (document.msExitFullscreen) document.msExitFullscreen();
-
-    if (document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen) {
+    else {
+      document.exitFullscreen();
       $videoContainer.classList.remove('is-fullscreen');
       $expandBtn.innerHTML = '<i class="fas fa-expand"></i>';
-      $expandBtn.removeEventListener('click', closeFullscreen);
-      $expandBtn.addEventListener('click', openFullscreen);
     }
   }
 
@@ -111,6 +97,12 @@ var VideoPlayer = (function() {
   function init() {
     $videoContainer = document.querySelector('.video-player');
 
+    /**
+     * 자바스크립트는 모든 페이지 footer에서 로드되기 때문에, 
+     * .video-player가 없는 페이지에서도 로드 됨
+     * 위 경우 .video-player은 null 이기 때문에 오류가 발생함
+     * 오류를 방지하기 위해 .video-player 값이 발견되는 경우만 아래 코드 실행
+     */
     if ($videoContainer) {
       $video = $videoContainer.querySelector('video');
       $volumeBtn = $videoContainer.querySelector('.button-volume');
@@ -122,7 +114,7 @@ var VideoPlayer = (function() {
 
       $volumeBtn.addEventListener('click', handleVolumeBtnClick);
       $playBtn.addEventListener('click', handlePlayBtnClick);
-      $expandBtn.addEventListener('click', openFullscreen);
+      $expandBtn.addEventListener('click', toggleFullscreen);
       $video.addEventListener('loadedmetadata', setTotalTime); // 비디오가 전부 로드 될 때까지 기다렸다가 setTotalTime 실행
       $video.addEventListener('ended', handleEnded);
       $rangeBtn.addEventListener('input', handleDrag);
