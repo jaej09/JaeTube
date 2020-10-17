@@ -1,7 +1,6 @@
-const { set } = require('mongoose');
-
 var VideoPlayer = (function() {
   let $videoContainer, $video, $volumeBtn, $playBtn, $expandBtn, $currentTime, $totalTime, $rangeBtn;
+  let playTime = null;
 
   /**
    * https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
@@ -26,10 +25,12 @@ var VideoPlayer = (function() {
     if ($video.paused) {
       $video.play();
       $playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      if (!playTime) getCurrentTime();
     }
     else {
       $video.pause();
       $playBtn.innerHTML = '<i class="fas fa-play"></i>';
+      if (playTime) removeInterval();
     }
   }
 
@@ -61,6 +62,15 @@ var VideoPlayer = (function() {
     return `${hours}:${minutes}:${totalSeconds}`;
   }
 
+  function getCurrentTime() {
+    playTime = setInterval(setCurrentTime, 1000);
+  }
+
+  function removeInterval() {
+    clearInterval(playTime);
+    playTime = null;
+  }
+
   function setCurrentTime() {
     /**
      * 51:00 / 52:00 
@@ -71,16 +81,16 @@ var VideoPlayer = (function() {
   }
 
   function setTotalTime() {
+    // 비디오가 전부 로드되었을 시에만 setTotalTime() 실행됨
     const totalTime = formatDate($video.duration);
     $totalTime.innerHTML = totalTime;
-    // 비디오가 전부 로드되었을 시에만 setTotalTime() 실행되기 때문에,
-    // 실행이 끝나고 나면 매초마다 setCurrentTime() 실행해서 현재 시점을 구한다.
-    setInterval(setCurrentTime, 1000);
+    getCurrentTime();
   }
 
   function handleEnded() {
     $video.currentTime = 0;
     handlePlayBtnClick(); // 일시정지 => 재생버튼으로 변경
+    removeInterval(playTime);
   }
 
   function handleDrag(evt) {
