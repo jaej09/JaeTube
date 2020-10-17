@@ -9,7 +9,7 @@
   }
 
   // Full Screen Mode
-  &.is-active {
+  &.is-fullscreen {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -46,12 +46,31 @@
 
     color: $color-white;
     background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.4s linear;
 
     padding: 15px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+      &:hover {
+        .button-volume-range {
+          display: block;
+        }
+      }
+
+      .button-volume {
+        width: 26px;
+      }
+
+      .button-volume-range {
+        width: 90px;
+        display: none;
+      }
+    }
 
     > .column {
       i {

@@ -1,7 +1,7 @@
 const { set } = require('mongoose');
 
 var VideoPlayer = (function() {
-  let $videoContainer, $video, $volumeBtn, $playBtn, $expandBtn, $currentTime, $totalTime;
+  let $videoContainer, $video, $volumeBtn, $playBtn, $expandBtn, $currentTime, $totalTime, $rangeBtn;
 
   /**
    * https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
@@ -13,8 +13,10 @@ var VideoPlayer = (function() {
     if ($video.muted) {
       $video.muted = false;
       $volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+      $rangeBtn.value = $video.volume; // muted 되었다고 해도, 원래 $video.volume이 가지고 있었던 value를 기억하고 있음
     }
     else {
+      $rangeBtn.value = 0;
       $video.muted = true;
       $volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
     }
@@ -39,7 +41,7 @@ var VideoPlayer = (function() {
     else if ($video.msRequestFullscreen) $videoContainer.msRequestFullscreen();
 
     if ($video.requestFullscreen || $video.mozRequestFullScreen || $video.webkitRequestFullscreen || $video.msRequestFullscreen) {
-      $videoContainer.classList.add('is-active');
+      $videoContainer.classList.add('is-fullscreen');
       $expandBtn.innerHTML = '<i class="fas fa-compress"></i>';
       $expandBtn.removeEventListener('click', openFullscreen);
       $expandBtn.addEventListener('click', closeFullscreen);
@@ -54,7 +56,7 @@ var VideoPlayer = (function() {
     else if (document.msExitFullscreen) document.msExitFullscreen();
 
     if (document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen) {
-      $videoContainer.classList.remove('is-active');
+      $videoContainer.classList.remove('is-fullscreen');
       $expandBtn.innerHTML = '<i class="fas fa-expand"></i>';
       $expandBtn.removeEventListener('click', closeFullscreen);
       $expandBtn.addEventListener('click', openFullscreen);
@@ -95,6 +97,17 @@ var VideoPlayer = (function() {
     handlePlayBtnClick(); // 일시정지 => 재생버튼으로 변경
   }
 
+  function handleDrag(evt) {
+    evt.preventDefault();
+
+    const { target: { value } } = evt;
+    $video.volume = value;
+
+    if (value >= 0.6) $volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+    else if (value >= 0.2) $volumeBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
+    else $volumeBtn.innerHTML = '<i class="fas fa-volume-off"></i>';
+  }
+
   function init() {
     $videoContainer = document.querySelector('.video-player');
 
@@ -105,12 +118,17 @@ var VideoPlayer = (function() {
       $expandBtn = $videoContainer.querySelector('.button-expand');
       $currentTime = $videoContainer.querySelector('.duration__current');
       $totalTime = $videoContainer.querySelector('.duration__total');
+      $rangeBtn = $videoContainer.querySelector('.button-volume-range');
 
       $volumeBtn.addEventListener('click', handleVolumeBtnClick);
       $playBtn.addEventListener('click', handlePlayBtnClick);
       $expandBtn.addEventListener('click', openFullscreen);
       $video.addEventListener('loadedmetadata', setTotalTime); // 비디오가 전부 로드 될 때까지 기다렸다가 setTotalTime 실행
       $video.addEventListener('ended', handleEnded);
+      $rangeBtn.addEventListener('input', handleDrag);
+
+      // Initialize Value
+      $video.volume = 0.8; // Default volume
     }
   }
 
