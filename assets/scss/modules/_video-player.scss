@@ -33,6 +33,10 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+
+    .video-player__controls {
+      bottom: 0;
+    }
   }
 
   video {
@@ -41,15 +45,15 @@
 
   &__controls {
     position: absolute;
-    bottom: 0;
+    bottom: 6px;
     width: 100%;
 
     color: $color-white;
     background-color: rgba(0, 0, 0, 0.5);
-    opacity: 1;
+    opacity: 0;
     transition: opacity 0.4s linear;
 
-    padding: 15px;
+    padding: 12px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 

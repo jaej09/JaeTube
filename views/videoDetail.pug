@@ -9,12 +9,13 @@ block content
             })
         .video-detail__info
             if loggedUser && video.creator.id === loggedUser.id
-                button.btn.btn-warning.mb-4
-                    a(href=routes.editVideo(video.id)) Edit Video
+                .d-flex.justify-content-end
+                    button.video__edit-btn.btn.btn-outline-secondary
+                        a(href=routes.editVideo(video.id)) Edit Video
             h5.video__title.text-justify=video.title
             span.video__views=video.views
             p.video__description.text-justify=video.description 
-        .video-detail__author
+        .video-detail__author.text-right
             p Uploaded by 
                 a(href=routes.userDetail(video.creator.id))=video.creator.name
         .video-detail__comments

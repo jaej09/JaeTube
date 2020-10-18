@@ -1,15 +1,17 @@
 extends layouts/main
 
 block content
-    .restricted
-        form(action=routes.editVideo(video.id), method="post")
-            .form-group
-                label(for='video-title') Title
-                input#video-title.form-control(type="text", name="title", value=video.title)
-            .form-group
-                label(for='video-description') Description
-                textarea#video-description.form-control(rows="8", name="description")=video.description
-            button.btn.btn-success.btn-block(type="submit") Update Video
-            
-        button.btn.btn-warning.btn-block.mt-2(type="button")
-            a(href=routes.deleteVideo(video.id)) Delete Video
+    .restricted.d-flex.h-80
+        .bg-white.shadow.rounded.overflow-hidden.px-4.py-4.w-100.align-self-center
+            h3.mb-4.text-uppercase.text-center Edit Video
+            form(action=routes.editVideo(video.id), method="post")
+                .form-group
+                    label(for='video-title') Title
+                    input#video-title.form-control(type="text", name="title", value=video.title)
+                .form-group
+                    label(for='video-description') Description
+                    textarea#video-description.form-control(rows="8", name="description")=video.description
+                button.btn.btn-danger.btn-block(type="submit") Update Video
+                
+            button.btn.btn-outline-secondary.btn-block.mt-2(type="button")
+                a(href=routes.deleteVideo(video.id)) Delete Video
