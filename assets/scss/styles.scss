@@ -1,17 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 
-@import 'base/_normalize';
-@import 'base/_bootstrap';
-@import 'base/_theme';
-@import 'base/_base';
-@import 'base/_links';
+@import 'base/normalize';
+@import 'base/bootstrap';
+@import 'base/theme';
+@import 'components/bootstrap-social';
 
-@import '_layout';
+@import 'base/html';
+@import 'base/links';
 
-@import 'components/_bootstrap-social';
+@import 'components/social-login';
 
-@import 'modules/_home';
-@import 'modules/_social-login';
-@import 'modules/_user-detail';
-@import 'modules/_video-detail';
-@import 'modules/_video-player';
+@import 'modules/home';
+@import 'modules/user-detail';
+@import 'modules/video-detail';
+@import 'modules/video-player';

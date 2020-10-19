@@ -1,6 +1,21 @@
+@import '../_variables';
+
+html,
+body {
+  font-family: 'Ubuntu', 'Noto Sans KR', cursive;
+  font-weight: 400;
+  color: $color-gray-87;
+  min-width: 500px;
+}
+
 main {
   padding-top: 30px;
   padding-bottom: 43px;
+}
+
+video {
+  width: 100%;
+  object-fit: cover;
 }
 
 .restricted {
