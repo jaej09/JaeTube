@@ -1,9 +1,17 @@
 extends layouts/main
 
 block content
-    .restricted.d-flex.h-80
+    .restricted.d-flex.flex-column.h-auto
+        .bg-white.shadow.rounded.overflow-hidden.px-4.py-4.w-100.align-self-center.mb-5
+            h4.mb-3.text-uppercase.text-center Record Video
+            video.video-recorder__video.mb-2.bg-dark
+            button.video-recorder__button.btn.btn-outline-secondary.btn-block Start Recording
+            .video-recorder__alert.mt-3.alert.alert-danger.text-center.is-hidden(role='alert') 
+                i.fas.fa-bomb 
+                span.ml-1 An unspecified error occurred while recording!
+
         .bg-white.shadow.rounded.overflow-hidden.px-4.py-4.w-100.align-self-center
-            h3.mb-4.text-uppercase.text-center Upload Video
+            h4.mb-3.text-uppercase.text-center Upload Video
             form(action=`/videos${routes.upload}`, method="post", enctype="multipart/form-data")
                 .form-group
                     label(for='video-file') Video

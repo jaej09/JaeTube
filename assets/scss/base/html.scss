@@ -18,6 +18,10 @@ video {
   object-fit: cover;
 }
 
+/**
+**************** BASE ****************
+*/
+
 .restricted {
   max-width: 500px;
   margin-left: auto;
@@ -38,4 +42,12 @@ video {
 
 .btn-social > :first-child {
   top: 4px;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.is-displayed {
+  display: block;
 }
