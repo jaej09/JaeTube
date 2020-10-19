@@ -82,7 +82,7 @@ var VideoPlayer = (function() {
 
   function setTotalTime() {
     // 비디오가 전부 로드되었을 시에만 setTotalTime() 실행됨
-    const totalTime = formatDate($video.duration);
+    const totalTime = formatDate($video.duration); // .duration => A double-precision floating-point value indicating the duration of the media in seconds
     $totalTime.innerHTML = totalTime;
     getCurrentTime();
   }
