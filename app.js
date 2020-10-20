@@ -12,6 +12,7 @@ import { localsMiddleware } from './middlewares';
 import globalRouter from './routers/globalRouter';
 import userRouter from './routers/userRouter';
 import videoRouter from './routers/videoRouter';
+import apiRouter from './routers/apiRouter';
 import routes from './routes';
 
 import './passport';
@@ -46,6 +47,7 @@ app.use('/static', express.static('static'));
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter); // 라우터로 연결해줄 것이라서, app.get() 대신 app.use() 사용
 app.use(routes.videos, videoRouter);
+app.use(routes.api, apiRouter);
 
 // ES6 - 모듈이라는 것이 존재하고, 이 덕분에 코드를 공유힐 수 있다.
 // app object를 export 했다.

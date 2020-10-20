@@ -111,3 +111,18 @@ export const deleteVideo = async (req, res) => {
   }
   return res.redirect(routes.home);
 };
+
+// Register Video Views
+export const postRegisterView = async (req, res) => {
+  const { params: { id } } = req;
+  try {
+    const video = await Video.findById(id);
+    video.views++;
+    video.save();
+    res.status(200); // 정상적으로 통과
+  } catch (err) {
+    res.status(400);
+  } finally {
+    res.end();
+  }
+};
