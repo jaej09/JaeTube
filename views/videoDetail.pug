@@ -13,8 +13,11 @@ block content
                     button.video__edit-btn.btn.btn-outline-secondary
                         a(href=routes.editVideo(video.id)) Edit Video
             h5.video__title.text-justify=video.title
-            span.video__views=video.views
-            p.video__description.text-justify=video.description 
+            p.video__description.text-justify=video.description
+            if video.views === 1
+                p.video__views 1 view
+            else 
+                p.video__views #{video.views} views
         .video-detail__author.text-right
             p Uploaded by 
                 a(href=routes.userDetail(video.creator.id))=video.creator.name
