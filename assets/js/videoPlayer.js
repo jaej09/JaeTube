@@ -88,6 +88,8 @@ var VideoPlayer = (function() {
   }
 
   function handleEnded() {
+    registerView();
+
     $video.currentTime = 0;
     handlePlayBtnClick(); // 일시정지 => 재생버튼으로 변경
     removeInterval(playTime);
@@ -102,6 +104,13 @@ var VideoPlayer = (function() {
     if (value >= 0.6) $volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
     else if (value >= 0.2) $volumeBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
     else $volumeBtn.innerHTML = '<i class="fas fa-volume-off"></i>';
+  }
+
+  function registerView() {
+    const videoId = window.location.href.split('/videos/')[1]; // URL 중 /videos/ 기준으로 array 값 두개를 반환! 즉 http://localhost:4000/videos/5f8c8d0e56645f2381873d5a => ['http://localhost:4000', '5f8c8d0e56645f2381873d5a']
+    fetch(`/api/${videoId}/view`, {
+      method : 'POST' // 데이터베이스를 변경할 필요 없으면 GET, 데이터베이스 변경이 필요하면 POST
+    });
   }
 
   function init() {
