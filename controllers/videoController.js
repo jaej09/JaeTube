@@ -43,7 +43,7 @@ export const postUpload = async (req, res) => {
     creator     : req.user.id
   });
 
-  console.log('user정보에 담겨있는 것', req.user);
+  // console.log('user정보에 담겨있는 것', req.user);
 
   req.user.videos.push(newVideo.id);
   req.user.save(); // we push newVideo.id into vidoes and then save all the user data on DB
@@ -54,10 +54,11 @@ export const postUpload = async (req, res) => {
 
 export const videoDetail = async (req, res) => {
   const { params: { id } } = req; // Routes보면, vidoes/5f66cab636efac41b6c3f93f처럼 videos/ 다음에 나오는 값을 :id 로 설정했기 때문에 variable name이 id이다.
-  console.log(req);
+
   try {
     // Find the Video with the given `id`, or `null` if not found
     const video = await Video.findById(id).populate('creator').populate('comments'); // objectId에만 .populate 사용 가능
+    console.log(video);
     return res.render('videoDetail', { pageTitle: video.title, video });
   } catch (err) {
     console.error(err);
@@ -131,13 +132,13 @@ export const postRegisterView = async (req, res) => {
 // Add Comment
 export const postAddComment = async (req, res) => {
   const { params: { id }, body: { comment }, user } = req;
-  console.log(req);
+  console.log('req.user', comment);
 
   try {
     const video = await Video.findById(id);
     const newComment = await Comment.create({
-      text   : comment,
-      create : user.id
+      text    : comment,
+      creator : user.id
     });
     video.comments.push(newComment._id);
     video.save();
