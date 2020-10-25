@@ -24,9 +24,11 @@ block content
                 a(href=routes.userDetail(video.creator.id))=video.creator.name
         .video-detail__comments
             if video.comments.length === 1
-                span.video__comment-number 1 comment
+                span.video__comment-number 1 
+                span.ml-1 comment
             else
-                span.video__comment-number #{video.comments.length} comments
+                span.video__comment-number=video.comments.length
+                span.ml-1 comments
             form.video-detail__comments-form
                 .form-group
                     input.form-control(type='text' aria-describedby='Comment')
@@ -34,7 +36,7 @@ block content
                     button.btn.btn-outline-secondary.font-weight-normal.font-size-09rem.mr-2.fixed-width(type="reset") Reset
                     button.btn.btn-outline-danger.font-weight-normal.font-size-09rem.fixed-width(type="submit") Submit
             .video-detail__comments-list.mt-3
-                each comment in video.comments
+                each comment in video.comments.reverse() 
                     +commentBlock({
                         text: comment.text
                     })
