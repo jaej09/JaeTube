@@ -1,3 +1,4 @@
+import Comment from '../models/Comment';
 import Video from '../models/Video';
 import routes from '../routes';
 
@@ -53,10 +54,10 @@ export const postUpload = async (req, res) => {
 
 export const videoDetail = async (req, res) => {
   const { params: { id } } = req; // Routes보면, vidoes/5f66cab636efac41b6c3f93f처럼 videos/ 다음에 나오는 값을 :id 로 설정했기 때문에 variable name이 id이다.
-
+  console.log(req);
   try {
     // Find the Video with the given `id`, or `null` if not found
-    const video = await Video.findById(id).populate('creator'); // objectId에만 .populate 사용 가능
+    const video = await Video.findById(id).populate('creator').populate('comments'); // objectId에만 .populate 사용 가능
     return res.render('videoDetail', { pageTitle: video.title, video });
   } catch (err) {
     console.error(err);
@@ -120,6 +121,26 @@ export const postRegisterView = async (req, res) => {
     video.views++;
     video.save();
     res.status(200); // 정상적으로 통과
+  } catch (err) {
+    res.status(400);
+  } finally {
+    res.end();
+  }
+};
+
+// Add Comment
+export const postAddComment = async (req, res) => {
+  const { params: { id }, body: { comment }, user } = req;
+  console.log(req);
+
+  try {
+    const video = await Video.findById(id);
+    const newComment = await Comment.create({
+      text   : comment,
+      create : user.id
+    });
+    video.comments.push(newComment._id);
+    video.save();
   } catch (err) {
     res.status(400);
   } finally {

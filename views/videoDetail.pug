@@ -25,4 +25,13 @@ block content
             if video.comments.length === 1
                 span.video__comment-number 1 comment
             else
-                span.video__comment-number #{video.comments.length} comments 
+                span.video__comment-number #{video.comments.length} comments
+            form.video-detail__comments-form
+                .form-group
+                    input#comment.form-control(type='text' aria-describedby='Comment')
+                .d-flex.justify-content-end
+                    button.btn.btn-outline-secondary.font-weight-normal.font-size-09rem.mr-2.fixed-width(type="reset") Reset
+                    button.btn.btn-outline-danger.font-weight-normal.font-size-09rem.fixed-width(type="submit") Submit
+            ul.video__comments-list
+                each comment in video.comments
+                    span comment.text 

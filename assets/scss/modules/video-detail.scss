@@ -6,10 +6,17 @@
 }
 
 .video-detail__info {
-  .video__edit-btn {
-  }
-
   .video__title {
     margin-top: 25px;
+  }
+}
+
+.video-detail__comments {
+  &-form {
+    margin-top: 15px;
+
+    button.fixed-width {
+      width: 96px;
+    }
   }
 }
