@@ -105,7 +105,7 @@ export const postEditProfile = async (req, res) => {
     await User.findByIdAndUpdate(req.user.id, {
       name,
       email,
-      avatarUrl : file ? file.path : req.user.avatarUrl // There is always a user inside of a req object as long as I am authenticated
+      avatarUrl : file ? file.location : req.user.avatarUrl // There is always a user inside of a req object as long as I am authenticated
     });
     return res.redirect(routes.me);
   } catch (err) {

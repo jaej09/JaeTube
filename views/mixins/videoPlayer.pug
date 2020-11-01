@@ -1,6 +1,6 @@
 mixin videoPlayer(video={})
   .video-player
-    video(src=`/${video.src}`)
+    video(src=video.src)
     .video-player__controls
       .column
         .volume-container

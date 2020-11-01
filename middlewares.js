@@ -1,9 +1,34 @@
+import aws from 'aws-sdk';
+import dotevn from 'dotenv';
 import multer from 'multer';
+import multerS3 from 'multer-s3';
 
 import routes from './routes';
 
-const multerVideo = multer({ dest: 'uploads/videos/' });
-const multerAvatar = multer({ dest: 'uploads/avatars/' });
+dotevn.config();
+
+const s3 = new aws.S3({
+  accessKeyId     : process.env.AWS_KEY,
+  secretAccessKey : process.env.AWS_PRIVATE_KEY,
+  region          : 'ap-northeast-2'
+});
+
+const multerVideo = multer({
+  // 이전에는 비디오 파일을 node.js local file system에 저장 => s3에 저장되게 변경
+  storage : multerS3({
+    s3,
+    acl    : 'public-read',
+    bucket : 'jaetube/video'
+  })
+});
+
+const multerAvatar = multer({
+  storage : multerS3({
+    s3,
+    acl    : 'public-read',
+    bucket : 'jaetube/avatar'
+  })
+});
 
 // videoFile is the name of the input from upload.pug and .single allow uploading only one file at a time
 // https://www.npmjs.com/package/multer

@@ -32,12 +32,12 @@ export const getUpload = (req, res) => res.render('upload', { pageTitle: 'Upload
 export const postUpload = async (req, res) => {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
-  const { body: { title, description }, file: { path } } = req;
+  const { body: { title, description }, file: { location } } = req;
   // Create a Video
   const newVideo = await Video.create({
     // This goes to the DB
     // Mongoose로 만들었던 video model 참고해서, 저장할 값 넘겨주기
-    fileUrl     : path,
+    fileUrl     : location,
     title,
     description,
     creator     : req.user.id
