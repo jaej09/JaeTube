@@ -97,6 +97,8 @@ export const userDetail = async (req, res) => {
 export const getEditProfile = (req, res) => res.render('editProfile', { pageTitle: 'Edit Profile' });
 
 export const postEditProfile = async (req, res) => {
+  // file.path에 아바타의 주소가 들어있음
+  // 아바타 이미지를 선택하지 않은 경우 여기서 file: {path} 해서 추출하면 null 값을 받아오게 됨 => try, catch문 안에서 불러오고 있음
   const { body: { name, email }, file } = req;
   console.log(file);
   try {

@@ -3,6 +3,7 @@ import dotevn from 'dotenv';
 
 import app from './app';
 
+// To let mongoose know about models
 import './db';
 import './models/Comment';
 import './models/Video';

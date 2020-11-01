@@ -15,7 +15,7 @@ import videoRouter from './routers/videoRouter';
 import apiRouter from './routers/apiRouter';
 import routes from './routes';
 
-import './passport';
+import './passport'; // 미들웨어로 사용하기 위해서 import -> When we do app.use(passport), it will automatically look for any strategy on ./passport
 
 const app = express();
 const cookieStore = MongoStore(session);
@@ -37,8 +37,8 @@ app.use(
     store             : new cookieStore({ mongooseConnection: mongoose.connection }) // mongoDB와 연결해야함
   })
 );
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize()); // In a Connect or Express-based application, passport.initialize() middleware is required to initialize Passport.
+app.use(passport.session()); // If your application uses persistent login sessions, passport.session() middleware must also be used.
 app.use(localsMiddleware); // 제대로 사용하기 위해서는 아래 globalRouter, userRouter, videoRouter 보다 위에 위치해야 함.
 
 // Routers
