@@ -1,3 +1,5 @@
+const { default: getBlobDuration } = require('get-blob-duration');
+
 var VideoPlayer = (function() {
   let $videoContainer, $video, $volumeBtn, $playBtn, $expandBtn, $currentTime, $totalTime, $rangeBtn;
   let playTime = null;
@@ -80,10 +82,14 @@ var VideoPlayer = (function() {
     $currentTime.innerHTML = formatDate(Math.floor($video.currentTime));
   }
 
-  function setTotalTime() {
-    // 비디오가 전부 로드되었을 시에만 setTotalTime() 실행됨
-    const totalTime = formatDate($video.duration); // .duration => A double-precision floating-point value indicating the duration of the media in seconds
-    $totalTime.innerHTML = totalTime;
+  // 비디오가 전부 로드되었을 시에만 setTotalTime() 실행됨
+  async function setTotalTime() {
+    // console.log($video.src); // 다음 결과 값 리턴함 => https://jaetube.s3.ap-northeast-2.amazonaws.com/video/e06f48bd1514c6b501ce5cfa18a20adb
+    const blob = await fetch($video.src).then((response) => response.blob()); // $video.src를 받은 다음 서버에 요청해서 응답을 받으면 blob으로 변환
+    const duration = await getBlobDuration(blob);
+
+    const totalTimeString = formatDate(duration);
+    $totalTime.innerHTML = totalTimeString;
     getCurrentTime();
   }
 
