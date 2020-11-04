@@ -7,7 +7,11 @@ import app from './app';
 import './db';
 import './models/Comment';
 import './models/Video';
-import '@babel/polyfill';
+
+// import '@babel/polyfill'; => deprecated 되었기 때문에 아래 코드로 변경함
+// https://babeljs.io/docs/en/babel-polyfill
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 dotevn.config();
 
