@@ -7,6 +7,7 @@ import app from './app';
 import './db';
 import './models/Comment';
 import './models/Video';
+import '@babel/polyfill';
 
 dotevn.config();
 

@@ -134,3 +134,4 @@ Temporary Items
 package-lock.json
 uploads/
 static/
+build/

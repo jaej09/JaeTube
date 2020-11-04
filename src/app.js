@@ -6,16 +6,20 @@ import session from 'express-session';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import path from 'path';
+
 import passport from 'passport';
 
 import { localsMiddleware } from './middlewares';
+import apiRouter from './routers/apiRouter';
 import globalRouter from './routers/globalRouter';
 import userRouter from './routers/userRouter';
 import videoRouter from './routers/videoRouter';
-import apiRouter from './routers/apiRouter';
 import routes from './routes';
 
-import './passport'; // 미들웨어로 사용하기 위해서 import -> When we do app.use(passport), it will automatically look for any strategy on ./passport
+import './passport';
+
+// 미들웨어로 사용하기 위해서 import -> When we do app.use(passport), it will automatically look for any strategy on ./passport
 
 const app = express();
 const cookieStore = MongoStore(session);
@@ -24,6 +28,8 @@ const cookieStore = MongoStore(session);
 // 아래 모든 코드가 app object에 속한다.
 app.use(helmet({ contentSecurityPolicy: false })); // Help secure Express/Connect apps with various HTTP headers
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // bodyParser는 사용자가 웹사이트로 전달하는 정보들을 검사하는 Middleware. request 정보에서 form이나 json 형태로 된 body를 검사한다.
@@ -42,8 +48,6 @@ app.use(passport.session()); // If your application uses persistent login sessio
 app.use(localsMiddleware); // 제대로 사용하기 위해서는 아래 globalRouter, userRouter, videoRouter 보다 위에 위치해야 함.
 
 // Routers
-app.use('/uploads', express.static('uploads')); // 이미지, CSS 파일 및 JavaScript 파일과 같은 정적 파일을 제공하려면 Express의 기본 제공 미들웨어 함수인 express.static을 사용하면 된다. express.static 사용하면 URL 접근이 아닌 directory 접근을 한다. 여기서는 uploads 라는 directory 에 접근한다.
-app.use('/static', express.static('static'));
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter); // 라우터로 연결해줄 것이라서, app.get() 대신 app.use() 사용
 app.use(routes.videos, videoRouter);
