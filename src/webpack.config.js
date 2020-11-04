@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.join(__dirname, 'static');
 module.exports = {
   mode    : MODE,
   entry   : [
+    '@babel/polyfill',
     ENTRY_FILE
   ],
   plugins : [
