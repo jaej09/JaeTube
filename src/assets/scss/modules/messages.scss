@@ -1,0 +1,38 @@
+@keyframes flashAnimation {
+  0% {
+    transform: translateY(-70px);
+  }
+  5% {
+    transform: translateY(0px);
+  }
+  95% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-70px);
+  }
+}
+
+.flash-message__container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1031; // default navbar z-index is 1030
+  padding: 16.5px 20px;
+  text-align: center;
+  animation: flashAnimation 5s ease-in-out forwards; // forwards 추가함으로써 animation 종료 후에도 100%에 설정했던 상태가 유지됨
+  &.error {
+    background-color: #e74c3c;
+  }
+  &.success {
+    background-color: #2ecc71;
+  }
+  &.info {
+    background-color: #f1c40f;
+  }
+  .flash-message__text {
+    color: white;
+    font-size: 14px;
+  }
+}

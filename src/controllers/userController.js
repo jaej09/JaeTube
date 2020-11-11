@@ -10,6 +10,7 @@ export const getJoin = (req, res) => {
 export const postJoin = async (req, res, next) => {
   const { body: { name, email, password, verifyPassword } } = req;
   if (password !== verifyPassword) {
+    req.flash('error', "Password Don't Match");
     res.status(400); // Bad Request -> 브라우저에서 Bad Request를 인지하면 아이디, 비번을 저장할 것인지 묻지 않는다.
     return res.render('join', { pageTitle: 'Join' });
   }
@@ -29,10 +30,15 @@ export const getLogin = (req, res) => res.render('login', { pageTitle: 'Log In' 
 
 export const postLogin = passport.authenticate('local', {
   failureRedirect : routes.login,
-  successRedirect : routes.home
+  successRedirect : routes.home,
+  successFlash    : 'Welcome',
+  failureFlash    : "Can't Log In. Check Email and/or Password"
 });
 
-export const githubLogin = passport.authenticate('github');
+export const githubLogin = passport.authenticate('github', {
+  successFlash : 'Welcome',
+  failureFlash : "Can't Log In At This Time"
+});
 
 export const githubLoginCallback = async (accessToken, refreshToken, profile, cb) => {
   console.log(accessToken, refreshToken, profile, cb);
@@ -65,15 +71,44 @@ export const githubLoginCallback = async (accessToken, refreshToken, profile, cb
 
 export const postGithubLogIn = (req, res) => res.redirect(routes.home);
 
-export const facebookLogin = passport.authenticate('facebook');
+export const facebookLogin = passport.authenticate('facebook', {
+  successFlash : 'Welcome',
+  failureFlash : "Can't Log In At This Time"
+});
 
-export const facebookLoginCallback = (accessToken, refreshToken, profile, cb) => {
-  console.log(accessToken, refreshToken, profile, cb);
+export const facebookLoginCallback = async (accessToken, refreshToken, profile, cb) => {
+  const { _json: { id, name, email } } = profile;
+
+  try {
+    const user = await User.findOne({ email });
+
+    // 만약 local로 가입한 사람이 github으로 로그인을 시도한다면 (local 이메일과 github 이메일 동일하다는 전제), 로그인을 시켜준 다음 githubID를 추가시킬 것이다.
+    if (user) {
+      // 동일한 이메일 주소가 있을 경우
+      user.facebookId = id;
+      user.avatarUrl = `https://graph.facebook.com/${id}/picture?type=large`;
+      user.save();
+      return cb(null, user);
+    }
+    // 동일한 이메일 주소가 없을 경우
+    const newUser = await User.create({
+      // 비밀번호가 없으면 .create 사용해서 계정 생성해도 괜찮음
+      // 비밀번호 포함되어 있으면 .register -> 비밀번호 암호화를 위해 필요함
+      email,
+      name,
+      facebookId : id,
+      avatarUrl  : `https://graph.facebook.com/${id}/picture?type=large`
+    });
+    return cb(null, newUser);
+  } catch (err) {
+    return cb(err);
+  }
 };
 
 export const postFacebookLogin = (req, res) => res.redirect(routes.home);
 
 export const logout = (req, res) => {
+  req.flash('info', 'Logged Out, Catch You Later');
   req.logout();
   return res.redirect(routes.home);
 };
@@ -90,6 +125,7 @@ export const userDetail = async (req, res) => {
     console.log(user);
     return res.render('userDetail', { pageTitle: 'User Detail', user });
   } catch (err) {
+    req.flash('error', 'User Not Found');
     return res.redirect(routes.home);
   }
 };
@@ -107,8 +143,10 @@ export const postEditProfile = async (req, res) => {
       email,
       avatarUrl : file ? file.location : req.user.avatarUrl // There is always a user inside of a req object as long as I am authenticated
     });
+    req.flash('success', 'Profile Updated');
     return res.redirect(routes.me);
   } catch (err) {
+    req.flash('error', "An error occured. Can't Update Profile");
     console.error(err);
     res.redirect(routes.editProfile);
   }
@@ -121,6 +159,7 @@ export const postChangePassword = async (req, res) => {
 
   try {
     if (newPassword !== verifyNewPassword) {
+      req.flash('error', "Can't Change Password");
       res.status(400); // status code 400 주지 않으면 브라우저에서 패스워드가 성공적으로 변경되었다 생각하고 저장하라는 알림을 보냄.
       return res.redirect(`/users${routes.changePassword}`);
     }

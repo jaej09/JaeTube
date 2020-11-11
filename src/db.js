@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 dotevn.config();
 
-mongoose.connect(process.env.PRODUCTION ? process.env.MONGO_URL_PROD : process.env.MONGO_URL, {
+mongoose.connect(process.env.PRODUCTION === 'true' ? process.env.MONGO_URL_PROD : process.env.MONGO_URL, {
   useCreateIndex     : true,
   useNewUrlParser    : true,
   useUnifiedTopology : true
