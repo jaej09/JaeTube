@@ -1,7 +1,8 @@
 import dotevn from 'dotenv';
-import passport from 'passport';
 import FacebookStrategy from 'passport-facebook';
 import GitHubStrategy from 'passport-github';
+
+import passport from 'passport';
 
 import { facebookLoginCallback, githubLoginCallback } from './controllers/userController';
 import User from './models/User';
@@ -30,7 +31,9 @@ passport.use(
     {
       clientID      : process.env.FACEBOOK_ID,
       clientSecret  : process.env.FACEBOOK_SECRET,
-      callbackURL   : `http://localhost:4000${routes.facebookCallback}`,
+      callbackURL   : process.env.PRODUCTION
+        ? `https://fast-fortress-53242.herokuapp.com${routes.facebookCallback}`
+        : `http://localhost:4000${routes.facebookCallback}`,
       profileFields : [
         'id',
         'displayName',
