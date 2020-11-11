@@ -10,6 +10,7 @@ export const getJoin = (req, res) => {
 export const postJoin = async (req, res, next) => {
   const { body: { name, email, password, verifyPassword } } = req;
   if (password !== verifyPassword) {
+    req.flash('error', "Password Don't Match");
     res.status(400); // Bad Request -> 브라우저에서 Bad Request를 인지하면 아이디, 비번을 저장할 것인지 묻지 않는다.
     return res.render('join', { pageTitle: 'Join' });
   }
@@ -29,10 +30,15 @@ export const getLogin = (req, res) => res.render('login', { pageTitle: 'Log In' 
 
 export const postLogin = passport.authenticate('local', {
   failureRedirect : routes.login,
-  successRedirect : routes.home
+  successRedirect : routes.home,
+  successFlash    : 'Welcome',
+  failureFlash    : "Can't Log In. Check Email and/or Password"
 });
 
-export const githubLogin = passport.authenticate('github');
+export const githubLogin = passport.authenticate('github', {
+  successFlash : 'Welcome',
+  failureFlash : "Can't Log In At This Time"
+});
 
 export const githubLoginCallback = async (accessToken, refreshToken, profile, cb) => {
   console.log(accessToken, refreshToken, profile, cb);
@@ -65,7 +71,10 @@ export const githubLoginCallback = async (accessToken, refreshToken, profile, cb
 
 export const postGithubLogIn = (req, res) => res.redirect(routes.home);
 
-export const facebookLogin = passport.authenticate('facebook');
+export const facebookLogin = passport.authenticate('facebook', {
+  successFlash : 'Welcome',
+  failureFlash : "Can't Log In At This Time"
+});
 
 export const facebookLoginCallback = (accessToken, refreshToken, profile, cb) => {
   console.log(accessToken, refreshToken, profile, cb);
@@ -74,6 +83,7 @@ export const facebookLoginCallback = (accessToken, refreshToken, profile, cb) =>
 export const postFacebookLogin = (req, res) => res.redirect(routes.home);
 
 export const logout = (req, res) => {
+  req.flash('info', 'Logged Out, Catch You Later');
   req.logout();
   return res.redirect(routes.home);
 };
@@ -90,6 +100,7 @@ export const userDetail = async (req, res) => {
     console.log(user);
     return res.render('userDetail', { pageTitle: 'User Detail', user });
   } catch (err) {
+    req.flash('error', 'User Not Found');
     return res.redirect(routes.home);
   }
 };
@@ -107,8 +118,10 @@ export const postEditProfile = async (req, res) => {
       email,
       avatarUrl : file ? file.location : req.user.avatarUrl // There is always a user inside of a req object as long as I am authenticated
     });
+    req.flash('success', 'Profile Updated');
     return res.redirect(routes.me);
   } catch (err) {
+    req.flash('error', "An error occured. Can't Update Profile");
     console.error(err);
     res.redirect(routes.editProfile);
   }
@@ -121,6 +134,7 @@ export const postChangePassword = async (req, res) => {
 
   try {
     if (newPassword !== verifyNewPassword) {
+      req.flash('error', "Can't Change Password");
       res.status(400); // status code 400 주지 않으면 브라우저에서 패스워드가 성공적으로 변경되었다 생각하고 저장하라는 알림을 보냄.
       return res.redirect(`/users${routes.changePassword}`);
     }

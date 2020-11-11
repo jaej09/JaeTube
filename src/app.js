@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import MongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import flash from 'express-flash';
 import session from 'express-session';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
@@ -43,6 +44,7 @@ app.use(
     store             : new cookieStore({ mongooseConnection: mongoose.connection }) // mongoDB와 연결해야함
   })
 );
+app.use(flash());
 app.use(passport.initialize()); // In a Connect or Express-based application, passport.initialize() middleware is required to initialize Passport.
 app.use(passport.session()); // If your application uses persistent login sessions, passport.session() middleware must also be used.
 app.use(localsMiddleware); // 제대로 사용하기 위해서는 아래 globalRouter, userRouter, videoRouter 보다 위에 위치해야 함.
