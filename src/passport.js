@@ -31,9 +31,7 @@ passport.use(
     {
       clientID      : process.env.FACEBOOK_ID,
       clientSecret  : process.env.FACEBOOK_SECRET,
-      callbackURL   : process.env.PRODUCTION
-        ? `https://fast-fortress-53242.herokuapp.com${routes.facebookCallback}`
-        : `http://localhost:4000${routes.facebookCallback}`,
+      callbackURL   : `https://fast-fortress-53242.herokuapp.com${routes.facebookCallback}`,
       profileFields : [
         'id',
         'displayName',
