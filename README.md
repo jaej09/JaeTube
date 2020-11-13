@@ -1,15 +1,10 @@
 # Youtube Clone
- Cloning Youtube with Vanilla and NodeJS
+Cloning Youtube with NodeJS
 
+View Demo [Here](http://fast-fortress-53242.herokuapp.com/)
 
-## Pages:
-- [ ] Home
-- [x] Join
-- [x] Login
-- [x] Search
-- [ ] User Detail
-- [ ] Edit Profile
-- [ ] Change Password
-- [ ] Upload
-- [ ] Video Detail
-- [ ] Edit Video
+---
+
+## Screenshot
+
+![screenshot]()
